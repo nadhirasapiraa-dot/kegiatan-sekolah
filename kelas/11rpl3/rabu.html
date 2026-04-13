@@ -1,0 +1,350 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+<title>Jadwal Real-Time</title>
+
+<style>
+body {
+  margin: 0;
+    font-family: 'Poppins', sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  background: linear-gradient(135deg, #e8f0ea, #cfded4);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+}
+
+/* CARD */
+.container {
+  width: 90%;
+  max-width: 500px;
+  background: #fff;
+  padding: 20px;
+  border-radius: 20px;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+
+  opacity: 0;
+  transform: translateY(20px);
+  animation: fadeUp 0.6s ease forwards;
+}
+
+@keyframes fadeUp {
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.notif {
+  position: fixed;
+  top: -100px;
+  right: 20px;
+  background: #2f6d4f;
+  color: white;
+  padding: 12px 18px;
+  border-radius: 10px;
+  box-shadow: 0 10px 20px rgba(0,0,0,0.2);
+  font-size: 14px;
+  transition: 0.5s;
+  opacity: 0;
+}
+
+/* muncul */
+.notif.show {
+  top: 20px;
+  opacity: 1;
+}
+
+.back {
+  background: #e4efe7;
+  border: none;
+  color: #2f6d4f;
+  padding: 8px 12px;
+  border-radius: 8px;
+  font-weight: 500;
+  cursor: pointer;
+  margin-bottom: 10px;
+  transition: 0.2s;
+}
+
+.back:hover {
+  background: #d0e3d7;
+  transform: scale(1.05);
+}
+
+/* TITLE */
+h2 {
+  text-align: center;
+  color: #2f6d4f;
+  font-weight: 600;
+
+}
+
+/* STATUS */
+.status {
+  text-align: center;
+  background: #e4efe7;
+  padding: 10px;
+  border-radius: 10px;
+  margin-bottom: 10px;
+  transition: 0.3s;
+  font-weight: 500;
+}
+
+/* PROGRESS */
+.progress-bar {
+  height: 8px;
+  background: #ddd;
+  border-radius: 10px;
+  overflow: hidden;
+  margin-bottom: 15px;
+}
+
+.progress {
+  height: 8px;
+  width: 0%;
+  background: linear-gradient(90deg, #6dbf8b, #2f6d4f);
+  transition: width 0.5s linear;
+}
+
+/* TABLE */
+table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+th {
+  background: #8fb39a;
+  color: white;
+  padding: 10px;
+}
+
+td {
+  padding: 10px;
+  text-align: center;
+  border-bottom: 1px solid #ddd;
+  transition: 0.2s;
+}
+
+td, th {
+  font-weight: 400;
+}
+
+/* HOVER */
+tr:hover {
+  transform: scale(1.02);
+}
+
+/* ACTIVE */
+.active {
+  animation: pulse 1.5s infinite;
+  box-shadow: 0 0 10px rgba(76,175,80,0.5);
+}
+
+@keyframes pulse {
+  0% { background-color: #d4edda; }
+  50% { background-color: #b7e4c7; }
+  100% { background-color: #d4edda; }
+}
+
+/* ISTIRAHAT */
+.istirahat {
+  background: #a9c4aa;
+  font-weight: bold;
+}
+
+.next {
+  background: #f0f8f3;
+}
+</style>
+</head>
+
+<body>
+<div id="notif" class="notif"></div>
+
+<div class="container">
+<button onclick="window.location.href='../../index.html'" class="back">
+  Kembali
+</button>
+
+  <h2 id="judul"></h2>
+
+  <div class="status" id="status">Loading...</div>
+
+  <div class="progress-bar">
+    <div class="progress" id="progress"></div>
+  </div>
+
+  <table id="tabel">
+    <tr>
+      <th>Jam</th>
+      <th>Mapel</th>
+      <th>Guru</th>
+    </tr>
+  </table>
+
+</div>
+
+<script>
+function showNotif(text) {
+  const notif = document.getElementById("notif");
+  notif.innerHTML = text;
+  notif.classList.add("show");
+}
+
+let sudahNotif = false;
+let lastIndex = -1; 
+
+const jadwal = [
+  { jam:"07:30 - 10:10", nama:"Bahasa Inggris", guru:"Herlina Pratama, S.Pd", mulai:"07:30", selesai:"10:10" },
+
+  { jam:"10:10 - 10:30", nama:"Istirahat", guru:"-", mulai:"10:10", selesai:"10:30", istirahat:true },
+
+  { jam:"10:30 - 11:50", nama:"Bahasa Indonesia", guru:"Dewi Nurhaya, S.Pd", mulai:"10:30", selesai:"11:50" },
+
+  { jam:"11:50 - 12:50", nama:"Istirahat", guru:"-", mulai:"11:50", selesai:"12:50", istirahat:true },
+
+  { jam:"12:50 - 14:50", nama:"Pancasila", guru:"R. Tini Gantini, S.H", mulai:"12:50", selesai:"14:50" }
+];
+
+const tabel = document.getElementById("tabel");
+
+// render tabel
+jadwal.forEach((j, i) => {
+  const row = document.createElement("tr");
+  row.id = "row-" + i;
+
+  if (j.istirahat) row.classList.add("istirahat");
+
+  row.innerHTML = `
+    <td>${j.jam}</td>
+    <td>${j.nama}</td>
+    <td>${j.guru}</td>
+  `;
+
+  tabel.appendChild(row);
+});
+
+function parseJam(jam) {
+  const [h, m] = jam.split(":");
+  const now = new Date();
+  return new Date(now.getFullYear(), now.getMonth(), now.getDate(), h, m);
+}
+
+function update() {
+  let aktif = false;
+
+const now = new Date();
+
+const namaHari = ["minggu","senin","selasa","rabu","kamis","jumat","sabtu"];
+const hariSekarang = namaHari[now.getDay()];
+
+if (hariSekarang !== hariFile) {
+  document.getElementById("status").innerHTML = "Bukan jadwal hari ini";
+  document.getElementById("progress").style.width = "0%";
+  return;
+}
+
+document.querySelectorAll("tr").forEach(r => {
+  r.classList.remove("active");
+  r.classList.remove("next"); 
+});
+
+  jadwal.forEach((j, i) => {
+    const mulai = parseJam(j.mulai);
+    const selesai = parseJam(j.selesai);
+    const row = document.getElementById("row-" + i);
+
+    
+if (now >= mulai && now <= selesai) {
+
+    if (lastIndex !== i) {
+    sudahNotif = false;
+    lastIndex = i;
+  }
+
+row.classList.add("active");
+
+let nextIndex = i + 1;
+
+while (jadwal[nextIndex] && jadwal[nextIndex].istirahat) {
+  nextIndex++;
+}
+
+const nextRow = document.getElementById("row-" + nextIndex);
+if (nextRow) {
+  nextRow.classList.add("next");
+}
+
+const sisa = Math.floor((selesai - now) / 1000);
+
+const jam = Math.floor(sisa / 3600);
+const menit = Math.floor((sisa % 3600) / 60);
+const detik = sisa % 60;
+
+let waktu = "";
+
+if (jam > 0) waktu += jam + "j ";
+if (menit > 0) waktu += menit + "m ";
+waktu += detik + "s";
+
+document.getElementById("status").innerHTML =
+  `Sekarang: <b>${j.nama}</b><br>Sisa: ${waktu}`;
+  
+  const total = selesai - mulai;
+  const jalan = now - mulai;
+  const persen = (jalan / total) * 100;
+  document.getElementById("progress").style.width = persen + "%";
+
+  const next = jadwal[i + 1];
+  if (next) {
+    const sisaMenit = (selesai - now) / 60000;
+    const notif = document.getElementById("notif");
+
+    // tampil/hilang real-time
+  if (sisaMenit <= 5 && sisaMenit > 0 && !notif.classList.contains("show")) {
+    notif.classList.add("show");
+  }
+
+  if (sisaMenit > 5 && notif.classList.contains("show")) {
+    notif.classList.remove("show");
+  }
+
+    // isi text sekali
+if (sisaMenit <= 5 && sisaMenit > 0 && !sudahNotif) {
+  showNotif("Sebentar lagi " + next.nama);
+
+  sudahNotif = true;
+}
+  }
+
+  aktif = true;
+}
+    if (now < mulai) {
+  sudahNotif = false;
+}
+  });
+
+  if (!aktif) {
+    document.getElementById("status").innerHTML = "Belum mulai / sudah selesai";
+    document.getElementById("progress").style.width = "0%";
+  }
+}
+
+const path = window.location.pathname;
+const namaFile = path.split("/").pop();
+const hariFile = namaFile.replace(".html", "");
+
+document.getElementById("judul").innerText =
+  "Jadwal Hari " + hariFile.charAt(0).toUpperCase() + hariFile.slice(1);
+
+setInterval(update, 1000);
+</script>
+
+</body>
+</html>

@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+
+<title>Daftar Mapel</title>
+
+<style>
+body {
+  margin: 0;
+  font-family: 'Poppins', sans-serif;
+
+  background: linear-gradient(135deg, #e8f0ea, #cfded4);
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 40px 15px;
+}
+
+
+/* JUDUL */
+h1 {
+  font-size: 26px;
+  color: #2f6d4f;
+  margin-bottom: 30px;
+  font-weight: 600;
+  text-align: center;
+  letter-spacing: 1px;
+}
+
+/* GRID */
+.container {
+  display: grid;
+  grid-template-columns: repeat(6, 1fr); /* trik center */
+  gap: 20px;
+  max-width: 900px;
+  width: 100%;
+}
+
+/* CARD */
+.card {
+  background: #fff;
+  padding: 18px;
+  border-radius: 18px;
+  box-shadow: 0 10px 25px rgba(0,0,0,0.08);
+
+  transition: 0.3s;
+  cursor: pointer;
+}
+
+/* posisi */
+.card:nth-child(1),
+.card:nth-child(2),
+.card:nth-child(3) {
+  grid-column: span 2;
+}
+
+.card:nth-child(4) {
+  grid-column: 2 / span 2;
+}
+
+.card:nth-child(5) {
+  grid-column: 4 / span 2;
+}
+
+/* hover */
+.card:hover {
+  transform: translateY(-6px) scale(1.03);
+  box-shadow: 0 18px 35px rgba(0,0,0,0.15);
+}
+
+/* judul card */
+.card h2 {
+  margin: 0 0 10px;
+  font-size: 17px;
+  color: #2f6d4f;
+  border-bottom: 1px solid #eee;
+  padding-bottom: 5px;
+}
+
+/* list */
+ul {
+  padding-left: 15px;
+  margin: 0;
+}
+
+li {
+  font-size: 13px;
+  margin-bottom: 6px;
+  color: #444;
+}
+
+/* HP */
+@media (max-width: 768px) {
+  .container {
+    grid-template-columns: 1fr;
+  }
+
+  .card {
+    grid-column: span 1 !important;
+  }
+}
+
+@media (min-width: 769px) {
+  body {
+    margin-top: 140px;
+    overflow: hidden; 
+  }
+}
+</style>
+</head>
+
+<body>
+<h1>Jadwal Mata Pelajaran</h1>
+
+<div class="container">
+
+  <div class="card" onclick="location.href='../kelas/11rpl3/senin.html'">
+    <h2>Senin</h2>
+    <ul>
+      <li>Matematika</li>
+      <li>Pendidikan Agama Islam dan Budi Pekerti</li>
+      <li>Bahasa Indonesia</li>
+    </ul>
+  </div>
+
+  <div class="card" onclick="location.href='../kelas/11rpl3/selasa.html'">
+    <h2>Selasa</h2>
+    <ul>
+      <li>Matematika</li>
+      <li>Sejarah</li>
+      <li>Bahasa Sunda</li>
+    </ul>
+  </div>
+
+  <div class="card" onclick="location.href='../kelas/11rpl3/rabu.html'">
+    <h2>Rabu</h2>
+    <ul>
+      <li>Bahasa Inggris</li>
+      <li>Bahasa Indonesia</li>
+      <li>Pendidikan Pancasila</li>
+    </ul>
+  </div>
+
+  <div class="card" onclick="location.href='../kelas/11rpl3/kamis.html'">
+    <h2>Kamis</h2>
+    <ul>
+      <li>Kreativitas, Inovasi, dan Kewirausahaan</li>
+      <li>Pendidikan Agama Islam dan Budi Pekerti</li>
+      <li>Pendidikan Jasmani, Olahraga, dan Kesehatan</li>
+    </ul>
+  </div>
+
+  <div class="card" onclick="location.href='../kelas/11rpl3/jumat.html'">
+    <h2>Jumat</h2>
+    <ul>
+      <li>Bahasa Inggris</li>
+      <li>Bimbingan Konseling</li>
+      <li>Kreativitas, Inovasi, dan Kewirausahaan</li>
+    </ul>
+  </div>
+
+</div>
+
+</body>
+</html>

@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+<title>Form Kelas</title>
+
+<style>
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  min-height: 100vh;
+  background: linear-gradient(135deg, #EEF7F1 0%, #9FC4A6 50%, #7FBF9B 100%);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+    font-family: 'Poppins', sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  overflow: hidden;
+  position: relative;
+  overflow: hidden;
+}
+
+/* BUBBLES */
+.bubbles span {
+  position: absolute;
+  bottom: -50px;
+  border-radius: 50%;
+  background: rgba(255,255,255,0.3);
+  animation: naik linear infinite;
+}
+
+.bubbles span:nth-child(1){left:10%;width:15px;height:15px;animation-duration:8s;}
+.bubbles span:nth-child(2){left:25%;width:25px;height:25px;animation-duration:12s;}
+.bubbles span:nth-child(3){left:40%;width:10px;height:10px;animation-duration:6s;}
+.bubbles span:nth-child(4){left:60%;width:30px;height:30px;animation-duration:14s;}
+.bubbles span:nth-child(5){left:75%;width:18px;height:18px;animation-duration:9s;}
+.bubbles span:nth-child(6){left:90%;width:22px;height:22px;animation-duration:11s;}
+
+@keyframes naik {
+  0% { transform: translateY(0); opacity:0.7; }
+  100% { transform: translateY(-800px); opacity:0; }
+}
+
+/* CONTAINER */
+.container {
+  width: 100%;
+  padding: 20px;
+  display: flex;
+  justify-content: center;
+}
+
+/* CARD */
+.card {
+  width: 100%;
+  max-width: 380px;
+  background: rgba(255,255,255,0.9);
+  padding: 25px;
+  border-radius: 16px;
+  box-shadow: 0 10px 25px rgba(0,0,0,0.15);
+  backdrop-filter: blur(10px);
+  text-align: center;
+  animation: fadeIn 0.6s ease;
+}
+
+@keyframes fadeIn {
+  from {opacity:0; transform: translateY(20px);}
+  to {opacity:1; transform: translateY(0);}
+}
+
+.card h2 {
+  margin-bottom: 20px;
+  color: #333;
+}
+
+/* INPUT */
+.input-box {
+  position: relative;
+  margin: 18px 0;
+}
+
+.input-box select {
+  width: 100%;
+  padding: 16px;
+  border: 2px solid #ddd;
+  border-radius: 10px;
+  font-size: 16px;
+  background: transparent;
+  outline: none;
+  appearance: none;
+}
+
+/* LABEL FLOAT */
+.input-box label {
+  position: absolute;
+  left: 12px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: gray;
+  background: transparent;
+  transition: 0.3s;
+  pointer-events: none;
+}
+
+.input-box select:focus + label,
+.input-box select:valid + label {
+  top: -8px;
+  font-size: 12px;
+  background: white;
+  padding: 0 5px;
+  color: #333;
+}
+
+/* BUTTON */
+button {
+  width: 100%;
+  padding: 14px;
+  margin-top: 10px;
+  border: none;
+  border-radius: 10px;
+  background: #8FC4A6;
+  color: white;
+  font-size: 16px;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+button:hover {
+  background:  #8FC4A6;
+  transform: scale(1.02);
+}
+
+button:active {
+  transform: scale(0.98);
+}
+
+</style>
+</head>
+
+<body>
+
+<!-- BUBBLES -->
+<div class="bubbles">
+  <span></span><span></span><span></span>
+  <span></span><span></span><span></span>
+</div>
+
+<div class="container">
+  <div class="card">
+    <h2>Isi Dulu Yuk</h2>
+
+    <div class="input-box">
+      <select id="kelas" required>
+        <option value="" disabled selected></option>
+        <option>11 RPL 3</option>
+        <option>12 RPL 1</option>
+        <option>12 RPL 2</option>
+      </select>
+      <label>Pilih Kelas</label>
+    </div>
+
+<button onclick="submitForm()">SUBMIT</button>
+  </div>
+</div>
+<script>
+function submitForm() {
+  const kelas = document.getElementById("kelas").value;
+
+  if (!kelas) {
+    alert("Pilih kelas dulu!");
+    return;
+  }
+
+  // routing sesuai pilihan
+  if (kelas === "11 RPL 3") {
+    window.location.href = "jadwal/11rpl3.html";
+  } else if (kelas === "12 RPL 1") {
+    window.location.href = "12rpl1.html";
+  } else if (kelas === "12 RPL 2") {
+    window.location.href = "12rpl2.html";
+  }
+}
+</script>
+</body>
+</html>
