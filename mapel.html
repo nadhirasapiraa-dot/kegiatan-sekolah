@@ -180,7 +180,12 @@ function submitForm() {
     return;
   }
 
-  window.location.href = "jadwal/" + kelas + ".html";
+  const routes = {
+    "11rpl1": "jadwal/11rpl1.html",
+    "11rpl3": "jadwal/11rpl3.html"
+  };
+
+  window.location.href = routes[kelas];
 }
 </script>
 </body>
