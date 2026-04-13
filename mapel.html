@@ -180,13 +180,10 @@ function submitForm() {
     return;
   }
 
-  // routing sesuai pilihan
-  if (kelas === "11 RPL 3") {
+  if (kelas === "11 RPL 1") {
+    window.location.href = "jadwal/11rpl1.html";
+  } else if (kelas === "11 RPL 3") {
     window.location.href = "jadwal/11rpl3.html";
-  } else if (kelas === "12 RPL 1") {
-    window.location.href = "12rpl1.html";
-  } else if (kelas === "12 RPL 2") {
-    window.location.href = "12rpl2.html";
   }
 }
 </script>
