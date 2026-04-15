@@ -19,6 +19,7 @@ body {
   height: 100vh;
 }
 
+/* CARD */
 .container {
   width: 90%;
   max-width: 500px;
@@ -39,6 +40,26 @@ body {
   }
 }
 
+.notif {
+  position: fixed;
+  top: -100px;
+  right: 20px;
+  background: #2f6d4f;
+  color: white;
+  padding: 12px 18px;
+  border-radius: 10px;
+  box-shadow: 0 10px 20px rgba(0,0,0,0.2);
+  font-size: 14px;
+  transition: 0.5s;
+  opacity: 0;
+    z-index: 9999;
+}
+
+/* muncul */
+.notif.show {
+  top: 20px;
+  opacity: 1;
+}
 
 @media (max-width: 768px) {
   .notif {
@@ -61,26 +82,6 @@ body {
   }
 }
 
-.notif {
-  position: fixed;
-  top: -100px;
-  right: 20px;
-  background: #2f6d4f;
-  color: white;
-  padding: 12px 18px;
-  border-radius: 10px;
-  box-shadow: 0 10px 20px rgba(0,0,0,0.2);
-  font-size: 14px;
-  transition: 0.5s;
-  opacity: 0;
-  z-index: 9999;
-}
-
-.notif.show {
-  top: 20px;
-  opacity: 1;
-}
-
 .back {
   background: #e4efe7;
   border: none;
@@ -98,6 +99,7 @@ body {
   transform: scale(1.05);
 }
 
+/* TITLE */
 h2 {
   text-align: center;
   color: #2f6d4f;
@@ -105,6 +107,18 @@ h2 {
 
 }
 
+.ruang {
+  text-align: center;
+  color: #2f6d4f;
+
+  font-size: 16px;
+  font-weight: 500;
+
+  margin-top: -20px;
+  margin-bottom: 12px;
+}
+
+/* STATUS */
 .status {
   text-align: center;
   background: #e4efe7;
@@ -115,6 +129,7 @@ h2 {
   font-weight: 500;
 }
 
+/* PROGRESS */
 .progress-bar {
   height: 8px;
   background: #ddd;
@@ -130,6 +145,7 @@ h2 {
   transition: width 0.5s linear;
 }
 
+/* TABLE */
 table {
   width: 100%;
   border-collapse: collapse;
@@ -152,10 +168,12 @@ td, th {
   font-weight: 400;
 }
 
+/* HOVER */
 tr:hover {
   transform: scale(1.02);
 }
 
+/* ACTIVE */
 .active {
   animation: pulse 1.5s infinite;
   box-shadow: 0 0 10px rgba(76,175,80,0.5);
@@ -167,6 +185,7 @@ tr:hover {
   100% { background-color: #d4edda; }
 }
 
+/* ISTIRAHAT */
 .istirahat {
   background: #a9c4aa;
   font-weight: bold;
@@ -188,6 +207,7 @@ tr:hover {
     margin-bottom: 20px;
   }
 }
+
 </style>
 </head>
 
@@ -195,12 +215,12 @@ tr:hover {
 <div id="notif" class="notif"></div>
 
 <div class="container">
-<button onclick="window.location.href='../../index.html'" class="back">
+<button onclick="window.location.href='../index.html'" class="back">
   Kembali
 </button>
 
   <h2 id="judul"></h2>
-
+  <h4 class="ruang">Ruang 16</h4>
   <div class="status" id="status">Loading...</div>
 
   <div class="progress-bar">
@@ -227,21 +247,76 @@ function showNotif(text) {
 let sudahNotif = false;
 let lastIndex = -1; 
 
-const jadwal = [
-    { jam:"06:30 - 07:30", nama:"Shalat Dhuha", guru:"-", mulai:"06:30", selesai:"07:30" },
+const semuaJadwal = {
+  senin: [     
+    { jam:"06:30 - 07:30", nama:"Upacara Bendera", guru:"-", mulai:"06:30", selesai:"07:30" },
+ { jam:"07:30 - 09:30", nama:"Matematika", guru:"Ayi Kurnia, S.Pd", mulai:"07:30", selesai:"09:30" },
+  { jam:"09:30 - 10:10", nama:"PAIBP", guru:"Asep Solehudin, S.Pd.I", mulai:"09:30", selesai:"10:10" },
+  { jam:"10:10 - 10:30", nama:"Istirahat", guru:"-", mulai:"10:10", selesai:"10:30", istirahat:true },
+  { jam:"10:30 - 11:50", nama:"PAIBP", guru:"Asep Solehudin, S.Pd.I", mulai:"10:30", selesai:"11:50" },
+  { jam:"11:50 - 12:50", nama:"Istirahat", guru:"-", mulai:"11:50", selesai:"12:50", istirahat:true },
+  { jam:"12:50 - 14:50", nama:"Bahasa Indonesia", guru:"Dewi Nurhayati, S.Pd", mulai:"12:50", selesai:"14:50" }
+],
+  selasa: [ 
+      { jam:"06:30 - 07:30", nama:"Botram", guru:"-", mulai:"06:30", selesai:"07:30" },
+ { jam:"07:30 - 08:50", nama:"Matematika", guru:"Ayi Kurnia, S.Pd", mulai:"07:30", selesai:"08:50" },
+  { jam:"08:50 - 10:10", nama:"Sejarah", guru:"Yanto Sugianto , S.Pd", mulai:"08:50", selesai:"10:10" },
+  { jam:"10:10 - 10:30", nama:"Istirahat", guru:"-", mulai:"10:10", selesai:"10:30", istirahat:true },
+  { jam:"10:30 - 11:50", nama:"Sejarah", guru:"Yanto Sugianto , S.Pd", mulai:"10:30", selesai:"11:50" },
+  { jam:"11:50 - 12:50", nama:"Istirahat", guru:"-", mulai:"11:50", selesai:"12:50", istirahat:true },
+  { jam:"12:50 - 14:50", nama:"Bahasa Sunda", guru:"Siti Mustika Dewi, S.Pd", mulai:"12:50", selesai:"14:50" }
+   ],
+  rabu: [ 
+          { jam:"06:30 - 07:30", nama:"Shalat Dhuha", guru:"-", mulai:"06:30", selesai:"07:30" },
 
-  { jam:"07:30 - 08:50", nama:"BK", guru:"Airista Jayanti, S.Pd", mulai:"07:30", selesai:"08:50" },
-
-  { jam:"08:50 - 10:10", nama:"Bahasa Indonesia", guru:"Dewi Nurhayati, S.Pd", mulai:"08:50", selesai:"10:10" },
+  { jam:"07:30 - 10:10", nama:"Bahasa Inggris", guru:"Herlina Pratama, S.Pd", mulai:"07:30", selesai:"10:10" },
 
   { jam:"10:10 - 10:30", nama:"Istirahat", guru:"-", mulai:"10:10", selesai:"10:30", istirahat:true },
 
-  { jam:"10:30 - 11:50", nama:"Bahasa Inggris", guru:"Herlina Pratama, S.Pd", mulai:"10:30", selesai:"11:50" },
+  { jam:"10:30 - 11:50", nama:"Bahasa Indonesia", guru:"Dewi Nurhaya, S.Pd", mulai:"10:30", selesai:"11:50" },
 
   { jam:"11:50 - 12:50", nama:"Istirahat", guru:"-", mulai:"11:50", selesai:"12:50", istirahat:true },
 
-  { jam:"12:50 - 14:50", nama:"KIK", guru:"Erma Yunita Rachmiatunnisa, S.Pd", mulai:"12:50", selesai:"14:50" }
-];
+  { jam:"12:50 - 14:50", nama:"Pancasila", guru:"R. Tini Gantini, S.H", mulai:"12:50", selesai:"14:50" }
+   ],
+  kamis: [ 
+        { jam:"06:30 - 07:30", nama:"Literasi", guru:"-", mulai:"06:30", selesai:"07:30" },
+
+  { jam:"07:30 - 10:10", nama:"KIK", guru:"Gita Mutia, S.Pd", mulai:"07:30", selesai:"10:10" },
+
+  { jam:"10:10 - 10:30", nama:"Istirahat", guru:"-", mulai:"10:10", selesai:"10:30", istirahat:true },
+
+  { jam:"10:30 - 11:50", nama:"PAIBP", guru:"Asep Solehudin", mulai:"10:30", selesai:"11:50" },
+
+  { jam:"11:50 - 12:50", nama:"Istirahat", guru:"-", mulai:"11:50", selesai:"12:50", istirahat:true },
+
+  { jam:"12:50 - 14:50", nama:"PJOK", guru:"Imat Ruhimat, S.Pd", mulai:"12:50", selesai:"14:50" }
+  ],
+  jumat: [   { jam:"06:30 - 07:30", nama:"Pengajian", guru:"-", mulai:"06:30", selesai:"07:30" },
+
+  { jam:"07:30 - 08:50", nama:"Bahasa Inggris", guru:"Herlina Pratama, S.Pd", mulai:"07:30", selesai:"08:50" },
+
+  { jam:"08:50 - 10:10", nama:"Bimbingan Konseling", guru:"Airista Jayanti, S.Pd", mulai:"08:50", selesai:"10:10" },
+
+  { jam:"10:10 - 10:30", nama:"Istirahat", guru:"-", mulai:"10:10", selesai:"10:30", istirahat:true },
+
+  { jam:"10:30 - 11:50", nama:"KIK", guru:"Gita Mutia, S.Pd", mulai:"10:30", selesai:"11:50" },
+
+  { jam:"11:50 - 12:30", nama:"Istirahat", guru:"-", mulai:"11:50", selesai:"12:30", istirahat:true },
+
+  { jam:"12:30 - 14:50", nama:"KIK", guru:"Gita Mutia, S.Pd", mulai:"12:30", selesai:"14:50" }
+     ]
+};
+
+const namaHari = ["minggu","senin","selasa","rabu","kamis","jumat","sabtu"];
+const hariSekarang = namaHari[new Date().getDay()];
+const namaKelas = "XI RPL 3";
+
+document.getElementById("judul").innerText =
+  "Jadwal " + namaKelas + " - Hari " +
+  hariSekarang.charAt(0).toUpperCase() + hariSekarang.slice(1);
+
+const jadwal = semuaJadwal[hariSekarang] || [];
 
 const tabel = document.getElementById("tabel");
 
@@ -275,11 +350,6 @@ const now = new Date();
 const namaHari = ["minggu","senin","selasa","rabu","kamis","jumat","sabtu"];
 const hariSekarang = namaHari[now.getDay()];
 
-if (hariSekarang !== hariFile) {
-  document.getElementById("status").innerHTML = "Bukan jadwal hari ini";
-  document.getElementById("progress").style.width = "0%";
-  return;
-}
 
 document.querySelectorAll("tr").forEach(r => {
   r.classList.remove("active");
@@ -322,7 +392,7 @@ let waktu = "";
 
 if (jam > 0) waktu += jam + "j ";
 if (menit > 0) waktu += menit + "m ";
-waktu += detik + "s";
+waktu += detik + "d";
 
 document.getElementById("status").innerHTML =
   `Sekarang: <b>${j.nama}</b><br>Sisa: ${waktu}`;
@@ -367,13 +437,7 @@ if (sisaMenit <= 5 && sisaMenit > 0 && !sudahNotif) {
   }
 }
 
-const path = window.location.pathname;
-const namaFile = path.split("/").pop();
-const hariFile = namaFile.replace(".html", "");
-
-document.getElementById("judul").innerText =
-  "Jadwal Hari " + hariFile.charAt(0).toUpperCase() + hariFile.slice(1);
-
+  update(); 
 setInterval(update, 1000);
 </script>
 

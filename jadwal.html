@@ -162,8 +162,14 @@ button:active {
     <div class="input-box">
 <select id="kelas" required>
   <option value="" disabled selected></option>
-  <option value="11rpl1">11 RPL 1</option>
-  <option value="11rpl3">11 RPL 3</option>
+   <option value="10rpl1">10 RPL 1</option>
+    <option value="10rpl2">10 RPL 2</option>
+    <option value="10rpl3">10 RPL 3</option>
+    <option value="10rpl4">10 RPL 4</option>
+    <option value="11rpl1">11 RPL 1</option>
+    <option value="11rpl2">11 RPL 2</option>
+    <option value="11rpl3">11 RPL 3</option>
+    <option value="10rpl4">11 RPL 4</option>
 </select>
       <label>Pilih Kelas</label>
     </div>
@@ -181,8 +187,15 @@ function submitForm() {
   }
 
   const routes = {
-    "11rpl1": "jadwal/11rpl1.html",
-    "11rpl3": "jadwal/11rpl3.html"
+    "10rpl1": "kegiatan/10rpl1.html",
+    "10rpl2": "kegiatan/10rpl2.html",
+    "10rpl3": "kegiatan/10rpl3.html",
+    "10rpl4": "kegiatan/10rpl4.html",
+    "11rpl1": "kegiatan/11rpl1.html",
+    "11rpl2": "kegiatan/11rpl2.html",
+    "11rpl3": "kegiatan/11rpl3.html",
+    "11rpl4": "kegiatan/11rpl4.html"
+
   };
 
   window.location.href = routes[kelas];
